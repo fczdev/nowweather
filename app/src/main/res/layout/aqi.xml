@@ -30,8 +30,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                >
+                android:layout_centerInParent="true">
 
                 <TextView
                     android:id="@+id/aqi_text"
@@ -45,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="AQI指数"
+                    android:text="AQI 指数"
                     android:textColor="#fff"/>
             </LinearLayout>
 

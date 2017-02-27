@@ -47,14 +47,14 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView comfortText;
 
-    private TextView carwashText;
+    private TextView carWashText;
 
     private TextView sportText;
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         initView();
 
@@ -133,8 +133,8 @@ public class WeatherActivity extends AppCompatActivity {
             TextView minText = (TextView) view.findViewById(R.id.min_text);
             dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
-            maxText.setText(forecast.tempterature.max);
-            minText.setText(forecast.tempterature.min);
+            maxText.setText(forecast.temperature.max);
+            minText.setText(forecast.temperature.min);
             forecastLayout.addView(view);
         }
         if(weather.aqi!=null){
@@ -145,7 +145,7 @@ public class WeatherActivity extends AppCompatActivity {
         String carWash = "洗车指数:"+weather.suggestion.carWash.info;
         String sport = "运动指数: "+weather.suggestion.sport.info;
         comfortText.setText(comfort);
-        carwashText.setText(carWash);
+        carWashText.setText(carWash);
         sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
     }
@@ -161,7 +161,7 @@ public class WeatherActivity extends AppCompatActivity {
         aqiText = (TextView)findViewById(R.id.aqi_text);
         pm25Text = (TextView)findViewById(R.id.pm25_text);
         comfortText = (TextView)findViewById(R.id.comfort_text);
-        carwashText = (TextView)findViewById(R.id.car_wash_text);
+        carWashText = (TextView)findViewById(R.id.car_wash_text);
         sportText = (TextView)findViewById(R.id.sport_text);
     }
 }

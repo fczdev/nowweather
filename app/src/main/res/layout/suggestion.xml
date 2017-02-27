@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:text="生活建议"
+        android:text="长者给的一些人生建议"
         android:textColor="#fff"
         android:textSize="20sp"/>
 
