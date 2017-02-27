@@ -1,6 +1,7 @@
 package com.nowweather.android;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.nowweather.android.db.City;
 import com.nowweather.android.db.County;
 import com.nowweather.android.db.Province;
+import com.nowweather.android.gson.Weather;
 import com.nowweather.android.util.HttpUtil;
 import com.nowweather.android.util.Utility;
 
@@ -106,6 +108,13 @@ public class ChooseAreaFragment extends Fragment {
                 }else if(currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
                     queryCounties();
+                    //如果当前级别是LEVEL_COUNTY，就启动WeatherActivity，并把当前的天气id传过去
+                }else if(currentLevel == LEVEL_COUNTY){
+                    String weatherId = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
