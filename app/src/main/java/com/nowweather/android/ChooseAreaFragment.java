@@ -56,7 +56,7 @@ public class ChooseAreaFragment extends Fragment {
     private ArrayAdapter<String> adapter;
 
     private List<String> dataList = new ArrayList<>();
-    /***
+    /**
      * 省列表
      */
     private List<Province> provinceList;
@@ -89,7 +89,7 @@ public class ChooseAreaFragment extends Fragment {
         titleText = (TextView)view.findViewById(R.id.title_text);
         backButton=(Button)view.findViewById(R.id.back_button);
         listView=(ListView)view.findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,dataList);
+        adapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,dataList);
         listView.setAdapter(adapter);
         return view;
     }
@@ -115,15 +115,16 @@ public class ChooseAreaFragment extends Fragment {
                 if(currentLevel == LEVEL_COUNTY){
                     queryCities();
                 }else if(currentLevel == LEVEL_CITY){
-                    queryProvince();
+                    queryProvinces();
                 }
             }
         });
+        queryProvinces();
     }
     /**
      * 查询省份  优先从数据库中查询  如果没有查询到再去服务器上进行查询
      */
-    private void queryProvince() {
+    private void queryProvinces() {
         titleText.setText("中国");
         backButton.setVisibility(View.GONE);
         provinceList = DataSupport.findAll(Province.class);
@@ -148,7 +149,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCities() {
         titleText.setText(selectedProvince.getProvinceName());
         backButton.setVisibility(View.VISIBLE);
-        cityList = DataSupport.where("province = ?",String.valueOf(selectedProvince.getId())).find(City.class);
+        cityList = DataSupport.where("provinceid = ?",String.valueOf(selectedProvince.getId())).find(City.class);
         if(cityList.size()>0){
             dataList.clear();
             for(City city:cityList){
@@ -188,7 +189,7 @@ public class ChooseAreaFragment extends Fragment {
         }
     }
     /**
-     * 根据传入的地址和
+     * 根据传入的地址和类型从服务器上查询省市县的数据
      * @param address
      * @param type
      */
@@ -223,9 +224,9 @@ public class ChooseAreaFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showProgressDialog();
+                            closeProgressDialog();
                             if("province".equals(type)){
-                                queryProvince();
+                                queryProvinces();
                             }else if("city".equals(type)){
                                 queryCities();
                             }else if("county".equals(type)){
