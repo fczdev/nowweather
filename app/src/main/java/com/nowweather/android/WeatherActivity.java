@@ -1,5 +1,6 @@
 package com.nowweather.android;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.nowweather.android.gson.Forecast;
 import com.nowweather.android.gson.Weather;
+import com.nowweather.android.service.AutoUpdateService;
 import com.nowweather.android.util.HttpUtil;
 import com.nowweather.android.util.Utility;
 
@@ -126,6 +128,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //图片加载失败
+                e.printStackTrace();
                 Toast.makeText(WeatherActivity.this,"背景图片加载失败",Toast.LENGTH_SHORT).show();
             }
 
@@ -180,6 +183,8 @@ public class WeatherActivity extends AppCompatActivity {
                             mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                             Toast.makeText(WeatherActivity.this,"获取天气信息成功",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(WeatherActivity.this,AutoUpdateService.class);
+                            startService(intent);
                         }else {
                             Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_SHORT).show();
                         }

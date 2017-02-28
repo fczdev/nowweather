@@ -14,26 +14,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.nowweather.android.db.City;
 import com.nowweather.android.db.County;
 import com.nowweather.android.db.Province;
-import com.nowweather.android.gson.Weather;
 import com.nowweather.android.util.HttpUtil;
 import com.nowweather.android.util.Utility;
-
 import org.litepal.crud.DataSupport;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-
-import static android.R.attr.elegantTextHeight;
-import static android.R.attr.y;
 
 /**
  * Created by 付存哲kk on 2017/2/27.
