@@ -1,17 +1,22 @@
 package com.nowweather.android;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nowweather.android.gson.Forecast;
 import com.nowweather.android.gson.Weather;
 import com.nowweather.android.util.HttpUtil;
@@ -51,13 +56,18 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView sportText;
 
-
+    private ImageView bingPicImg;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //判断当前的设备版本是否大于21/Android5.0  若设备版本号在Android5.0以上  就执行代码   使得软件界面的头布局和设备系统栏融为一体
+        if(Build.VERSION.SDK_INT>21){
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         setContentView(R.layout.activity_weather);
         initView();
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather",null);
         if(weatherString != null){
@@ -70,6 +80,42 @@ public class WeatherActivity extends AppCompatActivity {
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(weatherId);
         }
+        String bingPic = prefs.getString("bing_pic",null);
+        if(bingPic!=null){
+            Glide.with(this).load(bingPic).into(bingPicImg);
+        }else {
+            loadBingPic();
+        }
+    }
+
+    /**
+     * 加载必应图片
+     */
+    private void loadBingPic() {
+        String resquestBingPic = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(resquestBingPic, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //图片加载失败
+                Toast.makeText(WeatherActivity.this,"背景图片加载失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //图片加载成功
+                final String bingPic = response.body().string();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
+                editor.putString("bing_pic",bingPic);
+                editor.apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(WeatherActivity.this).load(bingPic).into(bingPicImg);
+                        Toast.makeText(WeatherActivity.this,"背景图片加载成功",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -163,5 +209,6 @@ public class WeatherActivity extends AppCompatActivity {
         comfortText = (TextView)findViewById(R.id.comfort_text);
         carWashText = (TextView)findViewById(R.id.car_wash_text);
         sportText = (TextView)findViewById(R.id.sport_text);
+        bingPicImg = (ImageView)findViewById(R.id.bing_pic);
     }
 }
