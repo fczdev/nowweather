@@ -38,6 +38,7 @@ import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by 付存哲kk on 2017/2/27.
+ * 在活动中请求天气数据，并将数据展示到界面上
  */
 
 public class WeatherActivity extends AppCompatActivity {
@@ -152,9 +153,9 @@ public class WeatherActivity extends AppCompatActivity {
 
     /**
      * 根据天气的id去请求天气信息
-     * @param weatherId
+     * @param mWeatherId
      */
-    public void requestWeather(final String weatherId) {
+    public void requestWeather(final String mWeatherId) {
         String weatherUrl = "http://guolin.tech/api/weather?cityid="+mWeatherId+"&key=dc6f30eba6ae4cb0a8d96a52bccbfa79";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
@@ -180,7 +181,6 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather",responseText);
                             editor.apply();
-                            mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                             Toast.makeText(WeatherActivity.this,"获取天气信息成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(WeatherActivity.this,AutoUpdateService.class);
