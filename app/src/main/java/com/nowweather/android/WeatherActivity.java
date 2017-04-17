@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,21 +18,17 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.nowweather.android.gson.Forecast;
 import com.nowweather.android.gson.Weather;
 import com.nowweather.android.service.AutoUpdateService;
 import com.nowweather.android.util.HttpUtil;
 import com.nowweather.android.util.Utility;
-
 import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by 付存哲kk on 2017/2/27.
@@ -153,10 +147,10 @@ public class WeatherActivity extends AppCompatActivity {
 
     /**
      * 根据天气的id去请求天气信息
-     * @param mWeatherId
+     * @param weatherId
      */
-    public void requestWeather(final String mWeatherId) {
-        String weatherUrl = "http://guolin.tech/api/weather?cityid="+mWeatherId+"&key=dc6f30eba6ae4cb0a8d96a52bccbfa79";
+    public void requestWeather(final String weatherId) {
+        String weatherUrl = "http://guolin.tech/api/weather?cityid="+weatherId+"&key=dc6f30eba6ae4cb0a8d96a52bccbfa79";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -181,6 +175,7 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather",responseText);
                             editor.apply();
+                            mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                             Toast.makeText(WeatherActivity.this,"获取天气信息成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(WeatherActivity.this,AutoUpdateService.class);
