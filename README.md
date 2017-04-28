@@ -1,4 +1,5 @@
 # nowweather
+
 app using litepal+okhttp3+Gson+glide
 
 
@@ -11,4 +12,6 @@ app的天气背景来自必应每日一图
 此app的目的只提供拿来练手，不做其他用途
 
 完成的页面：
+
+
 ![gif](https://github.com/fczdev/Gif-Src/blob/master/show_noweather.gif)
