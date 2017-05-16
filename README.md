@@ -17,4 +17,4 @@ app的天气背景来自必应每日一图
 ![gif](https://github.com/fczdev/Gif-Src/blob/master/show_noweather.gif)
 
 
-有疑问请联系QQ:317415875  期待和大家的交流与学习
+如有疑问请联系QQ:317415875  期待和大家的交流与学习
